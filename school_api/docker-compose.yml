@@ -1,0 +1,51 @@
+version: "3"
+
+networks:
+    school:
+services:
+    app:
+        build:
+            context: ./docker
+        ports:
+            - "80:80"
+        volumes:
+            - .:/var/www/html:rw
+        networks:
+            - school
+
+    mysql:
+        image: mysql:8
+        restart: unless-stopped
+        ports:
+            - "3311:3306"
+        volumes:
+            - ./school_mysql_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpass
+            MYSQL_DATABASE: db
+
+        networks:
+            - school
+
+    phpmyadmin:
+        depends_on:
+            - mysql
+        image: phpmyadmin
+        restart: always
+        ports:
+            - "8093:80"
+        environment:
+            PMA_HOST: mysql
+            PMA_USER: root
+            PMA_PASSWORD: rootpass
+            PHP_INI_UPLOAD_MAX_FILESIZE: 20M
+            PHP_INI_POST_MAX_SIZE: 25M
+
+        networks:
+            - school
+
+    
+
+volumes:
+    school_mysql_data:
+  

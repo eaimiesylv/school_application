@@ -1,0 +1,48 @@
+Create Subject::
+    need class
+Create Assessment::
+Create Session::
+    copy all student details with session id
+    copy all assessment with session id
+
+
+
+Score::
+    admin: select class, select subject, enter score
+Merge Subject
+    select class, select subject, merge name, 
+BroadSheet
+    select class and type whether merge or unmerge
+Subject allocation
+    select teacher and pull all allocated subject
+Class teacher allocation
+    select teacher and all classes
+Resumption/Closing Date
+    enter resumption and closing date
+Teacher Comment
+    select all comment::
+Hm Comment
+    select all comment from comment table
+Affective
+    Enter affective
+Pyschmotor
+    Enter Pyschmotor
+Analyse Result
+    1. list all the classes
+    always run check to make sure that it's not a general problem. i.e it is not every std that is affected before
+    singling out the affected student...alway check for number 2::: first
+1//check for scores
+    1. select all students with incomplete number of scores//recommend to deactivate student
+    2. select subjects that have not been enter//contact this teacher,phone number, email
+2 //check for affective
+    1. select all student with incomplete affective
+    2. select affective that have not been entered
+3//check psychomotor
+    1. select all student with incomplete pyschomotor
+    2. select psychomotor that have not been entered
+
+4//select teacher comment
+    1. select all student with incomplete comment
+    2. select comment that have not been entered   
+5//check if closing and opening date is set 
+
