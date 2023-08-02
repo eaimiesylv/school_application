@@ -31,7 +31,8 @@
               <th>S/n</th>
               <th>Subject Name</th>
               <th>Teacher Name</th>
-              <th>Action</th>
+              <th>Assessment</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -39,12 +40,25 @@
             <td>{{ index + 1 }}</td>
             <td>{{ subjectObj.subjects.subjects}}</td>
             <td>{{ subjectObj.users.first_name}} {{ subjectObj.users.last_name}}</td>
+            <td v-for="(subjectObj2, index) in subjectObj.assessment" :key="index">
             
-            <td>  
-              <h4 class="btn btn-warning">
-                 <router-link to="/score/addscore">Enter Score</router-link>
+              <h4 class="btn btn-primary">
+                <router-link :to="getRoutePath(subjectObj.subjects.id,
+                                                subjectObj.subjects.subjects, 
+                                                subjectObj2.id,
+                                                subjectObj2.assessname,
+                                                activeClassName,
+                                                activeClassId,
+                                                session_id
+                                                
+                                                )">
+                  {{ subjectObj2.assessname }}
+                </router-link>
                </h4>
-         </td>
+             
+              </td>  
+             
+         
             
           </tr>
         </tbody>
@@ -73,7 +87,9 @@ export default {
       selectedSubjects: [], 
       teachers:'',
       session_id:'',
-      selectedSessionId: null
+      selectedSessionId: null,
+      activeClassName:'',
+      activeClassId:''
     };
   },
   mounted() {
@@ -89,6 +105,8 @@ export default {
         this.classes = await this.getMethodId(`/klass_subject_allocated_teacher/${this.session_id}`);
         //console.log(this.classes[0].subjectallocation);
         this.activeClassSubjects =this.classes[0].subjectallocation;
+        this.activeClassName = this.classes[0].class_name; 
+        this.activeClassId = this.classes[0].id; 
         this.isLoading = false;
         // Update activeClassSubjects with the subjects of the first class initially
         //this.activeClassSubjects = this.classes.length > 0 ? this.classes[0].subjectallocation : [];
@@ -103,8 +121,13 @@ export default {
       // Update activeClassSubjects with the subjects of the selected class
       this.activeTab = index;
       this.activeClassSubjects = this.classes[index].subjectallocation;
+      this.activeClassName = this.classes[index].class_name; 
+      this.activeClassId = this.classes[index].id; 
     },
-   
+    getRoutePath(subjectId,subjectName,assessId, assessname, classname, classId,session_id) {
+    // Here, we are passing the subjectId and assessname as route parameters
+    return `/score/addscore/${subjectId}/${subjectName}/${assessId}/${assessname}/${classname}/${classId}/${session_id}`;
+  }
     
   },
   watch: {

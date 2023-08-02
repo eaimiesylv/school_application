@@ -35,4 +35,7 @@ class SubjectAllocation extends Model
     public function subjects(){
         return $this->belongsTo(Subject::class,'subject_id','id')->select('id','subjects');
     }
+    public function assessment(){
+        return $this->hasMany(Assessment::class,'session_id','session_id');
+    }
 }

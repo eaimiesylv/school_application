@@ -13,4 +13,5 @@ class Session extends Model
     public function assessment(){
         return $this->hasMany(Assessment::class,'session_id','id');
     }
+   
 }

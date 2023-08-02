@@ -12,8 +12,10 @@ use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\User\SubjectAllocationController;
 use App\Http\Controllers\User\ScoreController;
 use App\Http\Controllers\User\MergeSubjectController;
-
-
+use App\Http\Controllers\User\ClassTeacherAllocationController;
+use App\Http\Controllers\User\PsychomotorController;
+use App\Http\Controllers\User\AffectiveController;
+use App\Http\Controllers\User\ResumptionClosingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,9 +41,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/klass_subject', [KlassController::class, 'klass_subject']);
     Route::get('/klass_subject/{id}', [KlassController::class, 'klass_subject_classid']);
     Route::get('/klass_subject_allocation/{sessionid}', [KlassController::class, 'klass_subject_allocation']);
+    Route::get('/klass_teacher_allocation/{sessionid}', [KlassController::class, 'klass_teacher_allocation']);
     Route::get('/klass_subject_merge/{sessionid}', [KlassController::class, 'klass_subject_merge']);
-    Route::get('/klass_subject_allocated_teacher/{sessionid}', [KlassController::class, 'klass_subject_allocation_teacher']);
-    Route::get('/klass_student/{classid}/{sessionid}', [KlassController::class, 'klass_student']);
+    Route::get('/klass_subject_allocated_teacher/{sessionid}', [KlassController::class, 'klass_subject_allocated_teacher']);
+    Route::get('/all_klass_student/{sessionid}', [KlassController::class, 'all_klass_student']);
+    Route::get('/single_klass_student/{classid}/{sessionid}', [KlassController::class, 'single_klass_student']);
     // Subject routes
     Route::resource('subject', SubjectController::class);
     // Session routes
@@ -52,7 +56,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('assessment', AssessmentController::class);
     Route::resource('user', UserController::class)->except('store');
     Route::get('/allteacher',[UserController::class, 'allteacher']);
+    Route::get('/allstudent',[UserController::class, 'allstudent']);
     Route::resource('subject_allocation', SubjectAllocationController::class);
+    Route::resource('class_teacher_allocation', ClassTeacherAllocationController::class);
     Route::resource('merge_subject', MergeSubjectController::class);
     Route::resource('score', ScoreController::class);
+    Route::get('/student_subject_score/{subject_id}/{assessment_id}/{sessionid}', [ScoreController::class, 'student_subject_score']);
+    Route::get('/student_result/{class_id}/{sessionid}', [UserController::class, 'student_result']);
+    Route::resource('affective', AffectiveController::class);
+    Route::resource('psychomotor', PsychomotorController::class);
+    Route::resource('resumption_closing', ResumptionClosingController::class);
 });

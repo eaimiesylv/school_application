@@ -83,8 +83,20 @@ class MergeSubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MergeSubject $mergeSubject)
+    public function destroy($id)
     {
-        //
+       
+       $id= MergeSubject::find($id);
+      
+       if(!$id){
+        return "Id not found";
+       }
+       try{
+         $id->delete();
+         return 'Removed successfully';
+       }
+       catch(QueryException $e){
+           response()->json(['message'=> 'error try again'.$e->getMessage(),500]);
+       }
     }
 }

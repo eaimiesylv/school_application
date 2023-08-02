@@ -23,7 +23,7 @@
         <!-- Add more sidebar links as needed -->
         
         <li v-if="role !== 0"><i class="fa-solid fa-pencil-ruler"></i><router-link to="/score" class="link">Score</router-link></li>
-        <li  v-if="role === 3"><i class="fa-solid fa-eraser"></i><router-link to="/merge_result" class="link">Merge Subject</router-link></li>
+        <li  v-if="role === 3"><i class="fa-solid fa-eraser"></i><router-link to="/merge_subject" class="link">Merge Subject</router-link></li>
         <li v-if="role === 3"><i class="fa-solid fa-eraser"></i><router-link to="/broadsheet" class="link">BroadSheet</router-link></li>
         <li v-if="role === 3"><i class="fa-solid fa-laptop"></i><router-link to="/subject_allocation" class="link">Subject allocation</router-link></li>
         <li v-if="role === 3"><i class="fa-solid fa-chalkboard"></i><router-link to="/class_teacher_allocation" class="link">Class teacher allocation</router-link></li>

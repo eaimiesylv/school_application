@@ -18,17 +18,7 @@ class AssessmentController extends Controller
         return Assessment::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(AssessmentForm $request)
     {
         try{
@@ -45,9 +35,9 @@ class AssessmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Assessment $assessment)
+    public function show($id)
     {
-        //
+        return Assessment::where('session_id', $id)->first();
     }
 
     /**

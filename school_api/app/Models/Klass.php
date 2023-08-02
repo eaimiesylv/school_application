@@ -43,11 +43,19 @@ class Klass extends Model
         return $this->hasMany(SubjectAllocation::class,'class_id','id');
 
     }
+    public function teacherallocation(){
+        return $this->hasMany(ClassteacherAllocation::class,'class_id','id');
+
+    }
     public function mergesubject(){
         return $this->hasMany(MergeSubject::class,'class_id','id');
 
     }
     public function students(){
+        return $this->hasMany(Student::class,'class_id','id');
+
+    }
+    public function assessment(){
         return $this->hasMany(Student::class,'class_id','id');
 
     }

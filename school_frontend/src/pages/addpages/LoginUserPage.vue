@@ -39,7 +39,7 @@ export default {
     return {
       form: {
         email_regno: 'okomemmanuel1@gmail.com',
-        password:'11111111',
+        password:'12s',
       },
       isLoading: false,
       error: ''

@@ -7,21 +7,13 @@
 <script>
 export default {
   data() {
-    return {
-      isSidebarClosed: false,
-    };
+    return {};
   },
-  mounted() {
-    // jQuery code will be executed after the component is mounted
-    this.toggle();
-  },
-  methods: {
-    toggle() {
-      console.log('ok');
-    },
-    toggleSidebar() {
-      this.isSidebarClosed = !this.isSidebarClosed;
-    },
+  created() {
+    if (!localStorage.getItem('visitedBefore')) {
+      localStorage.setItem('visitedBefore', 'true');
+      window.location.reload();
+    }
   },
 };
 </script>

@@ -129,7 +129,7 @@ export default {
     }));
     
     // Assuming that the endpoint expects an array of allocations as the payload
-    await this.postMethod('/merge_subject', { mergesubject: mergeSubjects }, '/merge_result');
+    await this.postMethod('/merge_subject', { mergesubject: mergeSubjects }, '/merge_subject');
        
                               
       } catch (error) {

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('resumption_closings', function (Blueprint $table) {
             $table->id();
-            $table->string('year',15);
-            $table->string('term',15);
-            $table->string('session_id',15)->nullable();
+            $table->date('resumption');
+            $table->date('closing');
+            $table->unsignedBiginteger('session_id');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('resumption_closings');
     }
 };

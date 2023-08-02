@@ -1,7 +1,7 @@
 <template>
   <base-layout>
   <h4 class="btn btn-primary">
-        <router-link to="/merge_result/addmergeresult">Merge Subject</router-link>
+        <router-link to="/merge_subject/addmergeresult">Merge Subject</router-link>
       </h4>
 
       <!-- Show loading state if classes are being fetched -->
@@ -13,16 +13,16 @@
       <div v-if="hasError" class="text-center">
         <p>An error occurred while fetching classes. Please try again later.</p>
       </div> -->
-  <div v-if="classes">
+    <div v-if="classes && classKeys.length > 0">
     <h5 class="add_heading">Session: {{$globalData.sessionData.year}} {{$globalData.sessionData.term}}</h5>
     <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item"  v-for="(classItem, index) in classes" :key="index">
+          <li class="nav-item"  v-for="(classItem, index) in classKeys" :key="index">
                                 
             <router-link to=""  
               :class="['nav-link', activeTab === index ? 'active' : '']"
-              @click="changeActiveTab(index)"
+              @click="changeActiveTab(classItem)"
               role="tab"
-            >{{classItem.class_name }}</router-link>
+            >{{classItem}}</router-link>
           </li>
         </ul>
      <!--<ul v-for="(classItem, index) in classes" :key="index">   
@@ -42,14 +42,13 @@
     </ul>-->
 
 
-    {{  activeClassSubjects}}
    
          <table class="table" v-if="activeClassSubjects">
           <thead>
             <tr>
               <th>S/n</th>
-              <th>Subject Name</th>
-              <th>Teacher Name</th>
+              <th>Merge Name</th>
+              <th>Subject</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -57,15 +56,12 @@
           <tr v-for="(subjectObj, index) in activeClassSubjects" :key="index">
           
         
-            <td>{{ index}}</td>
-            <td>{{  activeClassSubjects['mergesubject']}}</td>
-            <td>
-                <ul v-for="(subjectObj2, index2) in  activeClassSubjects['subjects']" :key="index2">
-                  <li>{{ subjectObj2['subject']}}</li>
-                </ul>
-              </td>
+            <td>{{ index +1}}</td>
+            <td>{{  activeClassSubjects[index]['merge_name']}}</td>
+            <td> {{  activeClassSubjects[index]['subject']['subjects']}} </td>
+         
             
-            <td><button class="btn btn-danger" @click="removeAllocation(subjectObj.id)">Remove</button></td>
+            <td><button class="btn btn-danger" @click="removeMergedSubject(activeClassSubjects[index]['rowId'])">Remove</button></td>
             
           </tr>
         </tbody>
@@ -74,7 +70,7 @@
        
    </div>
     <!-- Show a message if there are no subjects for the active class -->
-    <div v-else>No subjects available for this class.</div>
+    <div v-else>No subjects has been merged.</div>
   </base-layout> 
     
 </template>
@@ -94,7 +90,8 @@ export default {
       selectedSubjects: [], 
       teachers:'',
       session_id:'',
-      selectedSessionId: null
+      selectedSessionId: null,
+      classKeys:[]
     };
   },
   mounted() {
@@ -107,8 +104,11 @@ export default {
       try {
         this.isLoading = true;
         this.classes = await this.getMethodId(`/klass_subject_merge/${this.session_id}`);
-        
-        this.activeClassSubjects =this.classes[0]
+        this.classKeys = Object.keys(this.classes);
+        this.activeTab =this.classKeys[0]
+        console.log(this.classes)
+        this.activeTab = 'J.s.s 3';
+        this.activeClassSubjects =this.classes[this.activeTab ]
        // this.activeClassSubjects =this.classes["m0"]
         console.log(this.activeClassSubjects)
         this.isLoading = false;
@@ -129,10 +129,10 @@ export default {
       console.log(this.activeClassSubjects)
       //this.activeClassSubjects = this.classes[index].subjectallocation;
     },
-    async removeAllocation(allocationId) {
+    async removeMergedSubject(rowId) {
        try{ 
-        
-        await this.deleteMethod(`/subject_allocation/${allocationId }`, '/subject_allocation');
+        console.log(rowId);
+       await this.deleteMethod(`/merge_subject/${rowId }`, '/subject_allocation');
         await this.fetchClasses();
                               
       } catch (error) {

@@ -72,6 +72,17 @@ class KlassController extends Controller
     public function klass_subject_classid($id){
         return Klass::select('id','class_name')->where('id',$id)->with('subjects')->get();
     }
+
+    public function klass_teacher_allocation($sessionid){
+        return Klass::select('id','class_name','class_value')->with([
+            'teacherallocation' => function ($query) use ($sessionid) {
+                $query->where('session_id', $sessionid);
+            },
+            'teacherallocation.users'
+        ])->whereHas('teacherallocation', function ($query) use ($sessionid) {
+            $query->where('session_id', $sessionid);
+        })->get();
+    }
     public function klass_subject_allocation($sessionid){
         return Klass::select('id','class_name','class_value')->with([
             'subjectallocation' => function ($query) use ($sessionid) {
@@ -84,67 +95,57 @@ class KlassController extends Controller
         })->get();
     }
     //handles selected merge subject
-    public function klass_subject_merge($sessionid)
+    public function klass_subject_merge($sessionId)
     {
-        $classDetails = Klass::select('id', 'class_name', 'class_value')->with([
-            'mergesubject' => function ($query) use ($sessionid) {
-                $query->where('session_id', $sessionid);
-            },
-           // 'mergesubject.mergename:id,subjects',
-            //'mergesubject.subjects:id,subjects',
-           
-        ])->whereHas('mergesubject', function ($query) use ($sessionid) {
-            $query->where('session_id', $sessionid);
-        })->get();
-        return $classDetails;
-        $result = [];
-        $i=0;
-        $klas = [];
-        foreach ($classDetails as $class) {
-            $classInfo = [
-                'id' => $class->id,
-                'class_name' => $class->class_name,
-                'class_value' => $class->class_value,
-            ];
-            foreach ($class->mergesubject as $mergesubject) {
-            }
-            $klas[]=$classInfo;
-        }
-      //  return $classDetails;
-        return $klas;
-       /* foreach ($classDetails as $class) {
-            $classInfo = [
-                'id' => $class->id,
-                'class_name' => $class->class_name,
-                'class_value' => $class->class_value,
-            ];
-    
-            $mergesubjects = [];
-            foreach ($class->mergesubject as $mergesubject) {
-                $mergename = $mergesubject->mergename->subjects;
-                $mergesubjects["mergename"] = $mergename;
+       
+        
+        
 
-               // $mergesubjects["mergename"]=$mergename;
-                $mergesubjects["subjects"][] = [
-                    'id' => $mergesubject->id,
-                    'subject' => $mergesubject->subjects->subjects,
-                  
-                ];
-               
-                    
+        $mergeSubjects = \App\Models\MergeSubject::where('session_id', $sessionId)
+            ->whereNotNull('merge_name')
+            ->with('mergename:id,subjects,class_id', 'subject:id,subjects,class_id', 'clas:id,class_name')
+            ->get(['merge_name', 'subject_id', 'class_id','id']);
+       
+        // Initialize an empty array to store the transformed response
+        $response = [];
+        
+        foreach ($mergeSubjects as $item) {
+            // Extract the necessary information from the current item
+            $class = $item->clas->class_name;
+            $mergeName = $item->mergename->subjects;
+            $subject = $item->subject;
+            $rowId=$item->id;
+        
+            // Create a new item in the response array if the class doesn't exist
+            if (!isset($response[$class])) {
+                $response[$class] = [];
             }
-    
-            $classInfo += $mergesubjects;
-            $result['class_details'][] = $classInfo;
-            $i++;
+        
+            // Create an array representing the current subject
+            $subjectData = [
+                'rowId'=>$rowId,
+                "merge_name" => $mergeName,
+                "subject" => $subject
+            ];
+        
+            // Add the current subject to the appropriate class in the response array
+            $response[$class][] = $subjectData;
         }
-    
-        return $result;*/
+        return $response;
+        
+        
+
+
+
+   
+
+       
     }
     
 
-  public function klass_subject_allocation_teacher($sessionid)
+  public function klass_subject_allocated_teacher($sessionid)
 {
+    //0 for std, 1 for staff 2 class teacher 3 admin
     // Get the authenticated user's role and ID
     $role = Auth::user()->role;
     //return $role;
@@ -159,7 +160,8 @@ class KlassController extends Controller
             }
         },
         'subjectallocation.subjects',
-        'subjectallocation.users'
+        'subjectallocation.users',
+        'subjectallocation.assessment'
     ])->whereHas('subjectallocation', function ($query) use ($sessionid, $id, $role) {
         $query->where('session_id', $sessionid);
         if ($role == 1) {
@@ -169,9 +171,26 @@ class KlassController extends Controller
 }
 
 
-    public function klass_student($classid,$sessionid){
+    public function all_klass_student($sessionid){
        
         $assessment = \App\Models\Assessment::select('assessname','max','min')->where('session_id', $sessionid)->get();
+        $klass_std_detail=Klass::select('id','class_name','class_value')
+        ->with(['students'=>function($query)use($sessionid){
+            $query->where('session_id', $sessionid)
+                   ->where("status", '=', "active");
+        }
+        
+        ])
+        ->with('students.user:id,first_name,last_name,passport')
+        ->get();
+       // $klass_std_detail['assessment']=$assessment;
+        return $klass_std_detail;
+
+        
+    }
+    public function single_klass_student($classid,$sessionid){
+       
+        //$assessment = \App\Models\Assessment::select('assessname','max','min')->where('session_id', $sessionid)->get();
         $klass_std_detail=Klass::select('id','class_name','class_value')
         ->where('id',$classid)
         ->with(['students'=>function($query)use($sessionid){
@@ -182,7 +201,7 @@ class KlassController extends Controller
         ])
         ->with('students.user:id,first_name,last_name,passport')
         ->get();
-        $klass_std_detail['assessment']=$assessment;
+       // $klass_std_detail['assessment']=$assessment;
         return $klass_std_detail;
 
         

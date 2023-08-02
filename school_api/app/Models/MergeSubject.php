@@ -26,10 +26,13 @@ class MergeSubject extends Model
             $user->fill($classDetails);
         });
     }
-    public function subjects(){
+    public function subject(){
         return $this->belongsTo(Subject::class,'subject_id','id');
     }
     public function mergename(){
-    return $this->belongsTo(Subject::class,'merge_name','id');
+      return $this->belongsTo(Subject::class,'merge_name','id');
     }
+    public function clas(){
+        return $this->belongsTo(Klass::class,'class_id','id');
+      }
 }

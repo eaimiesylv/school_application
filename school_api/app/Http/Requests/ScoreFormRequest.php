@@ -10,14 +10,15 @@ class ScoreFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=>'required|integer',
+            'id'=>'',//this is the id of the scores useful for updateor create
+            'user_id'=>'',
             'regno'=>'',
             'score'=>'required|integer',
             'assessment_id'=>'required|integer',
             'subject_id'=>'required|integer',
             'class_id'=>'required|integer',
             'session_id'=>'required|integer',
-            'session_class'=>'required|integer', 
+            'session_class'=>'', 
         ];
     }
 }

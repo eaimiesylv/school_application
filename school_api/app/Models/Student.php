@@ -9,7 +9,7 @@ class Student extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $hidden=['updated_at','created_at','id'];
+    protected $hidden=['updated_at','created_at'];
     public function sessions(){
 
         return $this->belongsTo(Session::class,'session_id','id');

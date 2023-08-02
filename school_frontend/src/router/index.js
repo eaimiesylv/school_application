@@ -123,6 +123,13 @@ const routes = [
     },
   },
   {
+    path:'/class_teacher_allocation/add_class_teacher_allocation',
+    component:()=>import('../pages/addpages/AddClassTeacherAllocationPage.vue'),
+    meta: {
+      role:Roles.admin, // Specify the required role for the route
+    },
+  },
+  {
     path:'/score',
     component:()=>import('../pages/viewpages/ScorePage.vue'),
     meta: {
@@ -132,8 +139,9 @@ const routes = [
     },
   },
   {
-    path:'/score/addscore',
+    path:'/score/addscore/:subjectId/:subjectName/:assessId/:assessname/:classname/:classId/:session_id',
     component:()=>import('../pages/addpages/AddScorePage.vue'),
+    props: true,
     meta: {
       role:Roles.admin, // Specify the required role for the route
     },
@@ -159,14 +167,14 @@ const routes = [
       role:Roles.admin, // Specify the required role for the route
     },
   },{
-    path:'/merge_result',
+    path:'/merge_subject',
     component:()=>import('../pages/viewpages/MergePage'),
     meta: {
       role:Roles.admin, // Specify the required role for the route
     },
   },
   {
-    path:'/merge_result/addmergeresult',
+    path:'/merge_subject/addmergeresult',
     component:()=>import('../pages/addpages/AddMergePage'),
     meta: {
       role:Roles.admin, // Specify the required role for the route

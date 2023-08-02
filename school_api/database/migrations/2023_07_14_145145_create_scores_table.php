@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('regno');
+            $table->string('regno')->nullable();
             $table->Integer('score');
             $table->unsignedBigInteger('assessment_id');
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('class_id');
             $table->unsignedBigInteger('session_id');
-            $table->string('session_class',20);
+            $table->string('session_class',20)->nullabe();
+            $table->string('unique_score',20)->unique();
             $table->unsignedBigInteger('created_by');
             $table->string('ip', 20);
             $table->timestamps();
