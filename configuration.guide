@@ -1,0 +1,2 @@
+localStorage.setItem('current_session',allSession); is set as AsideComponent.vue
+ localStorage.setItem('visitedBefore', 'true'); is ast DashboardPage.vue

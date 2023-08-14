@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'dob' => $this->faker->date,
             'passport' => 'https://source.unsplash.com/random',
             'username' => $this->faker->userName,
-            'class_id' => $this->faker->numberBetween(7, 10),
+            //'class_id' => $this->faker->numberBetween(1, 6),
             'session_id' => 13,
             'role' => $this->faker->randomElement([0, 1]),// Change this to the appropriate role value
             'status' => 'active',

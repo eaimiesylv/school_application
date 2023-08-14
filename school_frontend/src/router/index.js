@@ -234,8 +234,7 @@ router.beforeEach((to, from, next) => {
   //const userRole = getUserRole(); // Get the user's role from wherever you store it (e.g., Vuex store, local storage)
 
   if (requiredRole && !hasRole(userRole, requiredRole)) {
-    //alert(userRole)
-    //alert(requiredRole)
+  
     // User doesn't have the required role, redirect to a different page or show an error message
     next({ path: '/forbidden'}); 
   } else {

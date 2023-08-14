@@ -19,15 +19,17 @@ return new class extends Migration
             $table->string('sex', 4);
             $table->date('dob', 10)->nullable();
             $table->string('status', 10)->default('active');
-            $table->string('passport', 20);
+            $table->string('passport', 100)->nullable();
             $table->string('username', 100)->nullable();
             $table->unSignedBigInteger('class_id')->nullable();
             $table->unSignedBigInteger('session_id')->nullable();
             $table->integer('role')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('ip', 20);
-            $table->string('hash', 60);
+            $table->string('ip', 20)->nullable();
+            $table->string('hash', 60)->nullable();
+          
+            
             $table->rememberToken();
             $table->timestamps();
         });

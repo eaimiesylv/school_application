@@ -10,8 +10,8 @@
           <h6 class="mt-2 white">Paul 12</h6>
           <h6><small>Admin</small></h6>
         </li>
-        <li><i class="fa-solid fa-user"></i><router-link to="/register" class="link">Register</router-link></li>
-        <li><i class="fa-solid fa-user"></i><router-link to="/login" class="link">Login</router-link></li>
+        <li><i class="fa-solid fa-user-plus"></i><router-link to="/register" class="link">Register</router-link></li>
+        <li><i class="fa-solid fa-sign-in"></i><router-link to="/login" class="link">Login</router-link></li>
        
         
         <li v-if="role === 0"><i class="fa-solid fa-dashboard"></i><router-link to="/studenthome" class="link">Dashboard</router-link></li>
@@ -54,6 +54,7 @@
 
 <script>
 import axios from 'axios';
+import { useAuthStore } from '@/store';
 export default {
  
   data() {
@@ -98,7 +99,8 @@ export default {
     async logout(){
       localStorage.removeItem('token');
       localStorage.removeItem('role');
-
+      localStorage.removeItem('user');
+      useAuthStore().logout();
       // Redirect to the login page or any other desired page after logout
       this.$router.push('/login');
 

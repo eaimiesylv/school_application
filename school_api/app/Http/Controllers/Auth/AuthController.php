@@ -52,7 +52,7 @@ class AuthController extends Controller
                 } 
                 $token = $user->createToken('api-token')->plainTextToken;
                 $role=$user->role;
-                return [$token,$role];
+                return [$token,$user];
             }
         catch(Exception $e) {
                 dd($e);

@@ -27,6 +27,7 @@ class StudentFactory extends Factory
             'status' => 'active',
             'created_at' => now(),
             'updated_at' => now(),
+            'session_class'=>'not set'
         ];
     }
 }

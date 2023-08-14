@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-
+import { useAuthStore } from '@/store';
 
 export const apiFunctionMixin = {
     methods: {
@@ -12,10 +12,11 @@ export const apiFunctionMixin = {
             const response=await axios.post(`${endpoint}`,postObject)
              
             if(endpoint == '/login'){
-             
-               localStorage.setItem('token',response.data[0]);
-               const encodedString = btoa(String(response.data[1]));
-               localStorage.setItem('role',encodedString );
+              useAuthStore().login(response);
+              
+              //localStorage.setItem('token',response.data[0]);
+              
+               //localStorage.setItem('user',response.data[1]);
             }else{
               console.log(response.data);
               alert(response.data);
