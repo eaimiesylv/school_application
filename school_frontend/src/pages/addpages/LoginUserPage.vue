@@ -19,17 +19,17 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" v-model="form.password" id="password" required>
       </div>
-       
+      <div class="form-group" style="display: flex; justify-content: space-between;">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
           <i class="fa-solid fa-sign-in"></i>
           <span v-if="isLoading">Submitting...</span>
-          <span v-else>Submit</span>
+          <span v-else>Login</span>
         </button>
-        <button type="submit" class="btn btn-primary">
+        <span class="btn btn-primary">
           <i class="fa-solid fa-user-plus"></i><router-link to="/register" class="link">Register</router-link>
-          
-        </button>
-        
+        </span>
+      </div>
+
         <p v-if="error" class="error-message">{{ error }}</p>
       </form>
     </div>

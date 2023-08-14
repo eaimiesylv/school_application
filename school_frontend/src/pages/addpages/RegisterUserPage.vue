@@ -1,7 +1,12 @@
 <template>
-  <base-layout>
-    <div class="container mt-4">
-      <h4 class="add_heading">Register Student</h4>
+  <!--<base-layout>-->
+    <div class="container">
+      <div class="text-center">
+          <img src="/assets/images/user.png"  width="75" height="50"/>
+      </div>
+      <h3 class="add_heading">Registration</h3>
+    
+
       <h5 class="add_heading">Session: {{$globalData.sessionData.year}} {{$globalData.sessionData.term}}</h5>
       <form @submit.prevent="submitForm">
         <div class="form-group">
@@ -64,15 +69,20 @@
           <label for="password_confirmation">Password Confirmation</label>
           <input type="password" class="form-control" v-model="password_confirmation" id="password_confirmation" required>
       </div>-->
-       
+      <div class="form-group" style="display: flex; justify-content: space-between;">
         <button type="submit" class="btn btn-primary" :disabled="isLoading">
+          <i class="fa-solid fa-user-plus"></i>
           <span v-if="isLoading">Submitting...</span>
-          <span v-else>Submit</span>
+          <span v-else>Register</span>
         </button>
+        <span class="btn btn-primary">
+          <i class="fa-solid fa-sign-in"></i><router-link to="/login" class="link">Login</router-link>
+        </span>
+      </div>
         <p v-if="error" class="error-message">{{ error }}</p>
       </form>
     </div>
-  </base-layout>
+  
 </template>
 
 <script>
@@ -160,4 +170,34 @@ export default {
 .error-message {
   color: red;
 }
+
+/* Apply styles to the container */
+.container {
+  /* Adjust the container width and add padding if needed */
+  max-width: 800px;
+  padding: 20px;
+  /* Center the container horizontally */
+  margin: 0 auto;
+  /* Add some spacing at the top */
+  margin-top: 100px;
+  /* Add a white background to the container */
+  background-color: white;
+  /* Add rounded corners */
+  border-radius: 5px;
+  /* Add box shadow for a subtle elevation effect */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply styles to the body background */
+.body-bg {
+  /* Set the background color for the entire body */
+  background-color: #f5f5f5; /* Example background color */
+  /* Add styling for the full height of the viewport */
+  min-height: 100vh;
+  /* Center the content vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/pages/viewpages/DashboardPage.vue';
+//import Home from '@/pages/viewpages/DashboardPage.vue';
+import Home from '@/pages/addpages/LoginUserPage.vue';
 const Roles = {
   admin:3,
   classteacher:2,
@@ -18,6 +19,11 @@ const routes = [
     name: 'Home',
     component: Home,
   },
+ /* {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },*/
   {
     path:'/studenthome',
     component:()=>import('../pages/viewpages/StudentHomePage.vue'),
