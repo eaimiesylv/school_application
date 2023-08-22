@@ -43,7 +43,7 @@ class AuthController extends Controller
                 ]);
                 $credentials = request(['email_regno', 'password']);
                 $user = User::where(function ($query) use ($request) {
-                    $query->where('email', $request->input('email_regno'))
+                    $query->where('email_regno', $request->input('email_regno'))
                           ->orWhere('id', $request->input('email_regno'));
                 })->first();
             

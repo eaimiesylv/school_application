@@ -19,15 +19,16 @@ export const useAuthStore = defineStore({
     },
     actions: {
         login(response){
-            //console.log(response);
-            this.token = response.data[0]
+            console.log('login to state')
+            console.log(response);
+           /* this.token = response.data[0]
             this.role = btoa(String(response.data[1]['role']));
             this.user = response.data[1]
 
             localStorage.setItem('token', JSON.stringify(this.token))
             localStorage.setItem('user',JSON.stringify(this.user))
             const encodedString = btoa(String(response.data[1]));
-            localStorage.setItem('role',encodedString );
+            localStorage.setItem('role',encodedString );*/
            
            /* for (const [key, value] of response.entries()) {
                 console.log(key, value);

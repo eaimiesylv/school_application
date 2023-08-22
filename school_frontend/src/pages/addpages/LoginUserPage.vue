@@ -66,13 +66,13 @@ export default {
         for (const [key, value] of formData.entries()) {
          console.log(key, value);
         }*/
-        
+      
       
         // endpoint, form data, redirect route
         await this.postMethod('/login', formData, '/');
       } catch (error) {
         // Handle the error here
-        console.error('Error performing POST request:', error);
+        console.log('Error performing POST request:', error);
       }
     },
     handleFileChange(event) {

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('email', 200);
+            $table->string('email_regno', 200);
             $table->string('sex', 4);
             $table->date('dob', 10)->nullable();
             $table->string('status', 10)->default('active');

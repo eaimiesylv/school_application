@@ -20,7 +20,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' => $this->faker->unique()->safeEmail,
+            'email_regno' => $this->faker->unique()->safeEmail,
             'sex' => $this->faker->randomElement(['M', 'F']),
             'dob' => $this->faker->date,
             'passport' => 'https://source.unsplash.com/random',

@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="text" class="form-control" v-model="form.email" id="email" required>
+          <input type="text" class="form-control" v-model="form.email_regno" id="email" required>
         </div>
         <div class="form-group">
           <label>Sex</label><br>
@@ -87,7 +87,7 @@
 
 <script>
 import { apiFunctionMixin } from '@/apiFunction.js';
-
+import axios from 'axios';
 export default {
   mixins: [apiFunctionMixin],
   data() {
@@ -95,14 +95,14 @@ export default {
       form: {
         first_name: 'test name',
         last_name: 'last test',
-        email: 'okomemmanuel1@gmail.com',
+        email_regno: 'okomemmanuel1@gmail.com',
         sex: 'm',
         dob: '',
         passport: null, // Updated to hold the uploaded passport file
         category: '',
         password:'',
         class_id:'',
-        
+        selectedSession: null,
        // password_confirmation:''
       },
       isLoading: false,
@@ -114,13 +114,14 @@ export default {
   },
   methods: {
     async submitForm() {
+      
       this.isLoading = true; // Start the loading indicator
       this.error = ''; // Reset the error message
       try {
         const formData = new FormData(); // Create a new FormData object
         formData.append('first_name', this.form.first_name);
         formData.append('last_name', this.form.last_name);
-        formData.append('email', this.form.email);
+        formData.append('email_regno', this.form.email_regno);
         formData.append('sex', this.form.sex);
         formData.append('dob', this.form.dob);
         formData.append('passport', this.form.passport); // 
@@ -155,9 +156,24 @@ export default {
         
       }
     },
+    async fetchAllSession() {
+      try {
+        this.isLoading = true;
+        const response = await axios.get('/session/latest');
+        this.sessions = response.data;
+        this.selectedSession = this.sessions;
+        // declare in main.js
+        this.$globalData.sessionData = this.sessions;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
+ 
   mounted() {
     this.fetchClasses();
+    this.fetchAllSession();
+
   },
 };
 </script>

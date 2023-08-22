@@ -32,6 +32,7 @@ Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [AuthController::class, 'store']);
 Route::get('klass', [KlassController::class, 'index']);
 Route::get('session', [SessionController::class, 'index']);
+Route::get('session/{session}', [SessionController::class, 'show']);
 
 // Protected routes - Require authentication (sanctum middleware)
 Route::middleware('auth:sanctum')->group(function () {
@@ -49,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Subject routes
     Route::resource('subject', SubjectController::class);
     // Session routes
-    Route::resource('session', SessionController::class)->except('index');
+    Route::resource('session', SessionController::class)->except(['index','show']);
     Route::resource('student', StudentController::class);
     Route::get('session_assessment', [SessionController::class, 'session_assessment']);
     // Assessment routes

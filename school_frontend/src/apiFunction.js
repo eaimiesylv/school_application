@@ -12,8 +12,11 @@ export const apiFunctionMixin = {
             const response=await axios.post(`${endpoint}`,postObject)
              
             if(endpoint == '/login'){
-              useAuthStore().login(response);
-              
+              //const authStore = useAuthStore();
+
+               useAuthStore().login(response);
+              //useAuthStore().login(response.data);
+              console.log(response);
               //localStorage.setItem('token',response.data[0]);
               
                //localStorage.setItem('user',response.data[1]);
@@ -23,8 +26,8 @@ export const apiFunctionMixin = {
             }
             this.$router.push(`${redirectUrl}`);
         }catch(error){
-          alert(error.response.data.message);
-          console.log(error.response);
+          //alert(error.response.data.message);
+          //console.log(error.response);
         }finally{
           this.isLoading = false; // Stop the loading indicator
         }

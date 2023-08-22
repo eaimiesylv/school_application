@@ -17,7 +17,7 @@ class UserForm extends FormRequest
             'dob'=>'',
             'sex'=>'required|string',
             'session_id'=>'required|integer',
-            'email'=>'required|unique:users|email',
+            'email_regno'=>'required|unique:users|email',
             'password'=>'required|min:2',
             'category'=>'required',
             //'passport'=>'required|image'

@@ -23,6 +23,7 @@ class UserController extends Controller
 
     public function store(UserForm $request)
     {
+       
         try {
             $path = "no.jpg";
             if ($request->hasFile('passport')) {
@@ -36,7 +37,7 @@ class UserController extends Controller
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'email' => $request->email,
+                'email_regno' => $request->email_regno,
                 'sex' => $request->sex,
                 'dob' => $request->dob,
                 'passport' => $path,

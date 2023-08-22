@@ -1,0 +1,110 @@
+<template>
+  <div class="container-fluid p-0">
+    <form
+      class="sign-in-sign-up-form w-100"
+      ref="form"
+      :data-url="urlGenerator('admin/users/login')"
+    >
+      <div class="form-row">
+        <div class="form-group col-12">
+          <label>Register as</label>
+          <app-input
+            type="select"
+            id="input-select"
+            :placeholder="$t('select_a_role')"
+            v-model="userRole"
+            @change="setUserInfo"
+            :list="userTypeList"
+          />
+        </div>
+      </div>
+      <Common/>
+      <component :is="dynamicComponentName" v-if="dynamicComponentName"></component>
+
+      <div class="form-row">
+        <div class="form-group col-12">
+          <button
+            type="button"
+            class="btn btn-primary btn-block text-center"
+            @click="submitData"
+          >
+            <span class="w-100">
+              <app-submit-button-loader v-if="loading"></app-submit-button-loader>
+            </span>
+            <template v-if="!loading">{{ $t('sign_up') }}</template>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-6">
+          <router-link to="/admin/users/login" class="bluish-text">
+            <i data-feather="user" class="pr-2" />
+            Login
+          </router-link>
+        </div>
+        <div class="col-6 text-right">
+          <!-- Other content -->
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import { companyName, copyRightText, urlGenerator } from "../../../Helpers/helpers";
+import { FormSubmitMixin } from "../../../Mixins/Global/FormSubmitMixin";
+import Investor from "./SubAuth/Investor.vue";
+import AgricBusiness from "./SubAuth/AgricBusiness.vue";
+import Common from "./SubAuth/Common.vue";
+
+export default {
+  name: "Login",
+  mixins: [FormSubmitMixin],
+  components: {
+    Investor,
+    AgricBusiness,
+    Common,
+  },
+  data() {
+    return {
+      companyName,
+      copyRightText,
+      urlGenerator,
+      userTypeList: [
+        { id: 0, value: "Select a role", email: null, password: null },
+        { id: 2, value: "Agric Business", email: "agent@demo.com", password: 123456 },
+        { id: 3, value: "Investor", email: "client@demo.com", password: 123456 },
+      ],
+      userRole: null,
+    };
+  },
+  computed: {
+    dynamicComponentName() {
+      if (this.userRole == 2) {
+        return "AgricBusiness";
+      } else if (this.userRole == 3) {
+        return "Investor";
+      }
+      return null;
+    },
+  },
+  methods: {
+    setUserInfo() {
+      //this.login.email = "";
+     // this.login.password = "";
+      //alert(this.userRole)
+    },
+    submitData() {
+      this.save(this.login);
+    },
+    afterSuccess({ data }) {
+      window.location.href = data;
+    },
+    afterError(response) {
+      this.loading = false;
+      this.$toastr.e(response.data.message);
+    },
+  },
+};
+</script>
